@@ -1,0 +1,50 @@
+﻿  GDI2View.cpp
+D:\!Elfak\Cetvrta Godina\(100,9): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(100,9): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(101,10): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(101,10): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(109,9): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(109,9): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(109,26): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(109,26): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(110,9): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(110,9): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(111,10): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(111,10): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(112,10): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(112,10): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(112,27): warning C4838: conversion from 'double' to 'LONG' requires a narrowing conversion
+  (compiling source file '/GDI2View.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(112,27): warning C4244: 'initializing': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDI2View.cpp')
+  
+  GDI2.vcxproj -> D:\!Elfak\Cetvrta Godina\#Racunarska grafika\lab\GDI\x64\Debug\GDI2.exe

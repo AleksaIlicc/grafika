@@ -1,0 +1,47 @@
+﻿  GDIView.cpp
+D:\!Elfak\Cetvrta Godina\(123,49): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(123,82): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(123,71): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(128,38): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(128,27): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(129,32): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(129,27): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(130,24): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(157,35): warning C4244: 'argument': conversion from 'const double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(158,30): warning C4244: 'argument': conversion from 'const double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(309,36): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(309,30): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(309,26): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(323,20): warning C4244: '=': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+D:\!Elfak\Cetvrta Godina\(324,20): warning C4244: '=': conversion from 'double' to 'LONG', possible loss of data
+  (compiling source file '/GDIView.cpp')
+  
+  GDI.vcxproj -> D:\!Elfak\Cetvrta Godina\#Racunarska grafika\lab\GDI\x64\Debug\GDI.exe

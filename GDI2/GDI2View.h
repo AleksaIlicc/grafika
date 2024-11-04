@@ -9,16 +9,29 @@ class CGDI2View : public CView
 {
 private:
 	bool showGrid = false;
-	void ToggleGrid();
-	int dim = 500;
-	int gridItem = 25;
-	int gridNumber = dim / gridItem;
+	int dim = 600;
+	int gridItem = 30;
+	int gridNumber = 20;
+	float smallCactusRotAngle = 0;
+	float wholeCactusRotAngle = 0;
+	HENHMETAFILE cactusPartMF;
+	HENHMETAFILE cactusPartLightMF;
+
 private:
 	void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	void DrawPolygon(CDC* pDC, POINT points[], int numOfPoints, COLORREF penColor, COLORREF brushColor);
+	void DrawCircle(CDC* pDC, POINT center, int r, COLORREF penColor, COLORREF brushColor);
 	void DrawCactusPot(CDC* pDC);
 	void DrawBackground(CDC* pDC, COLORREF color);
 	void DrawGrid(CDC* pDC);
+	void DrawCactus(CDC* pDC);
+	void Scale(CDC* pDC, float x, float y);
+	void Translate(CDC* pDC, float x, float y);
+	void Rotate(CDC* pDC, float angle);
+	void RotateAroundPoint(CDC* pDC, POINT point, float angle);
+
+
+
 
 protected: // create from serialization only
 	CGDI2View() noexcept;

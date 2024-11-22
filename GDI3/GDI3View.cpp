@@ -1,4 +1,4 @@
-
+﻿
 // GDI3View.cpp : implementation of the CGDI3View class
 //
 
@@ -18,7 +18,8 @@
 #endif
 #include "DImage.h"
 
-
+#define M_PI 3.14159265358979323846
+#define RAD(x) (x/180.0f * M_PI)
 // CGDI3View
 
 IMPLEMENT_DYNCREATE(CGDI3View, CView)
@@ -28,14 +29,22 @@ BEGIN_MESSAGE_MAP(CGDI3View, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // CGDI3View construction/destruction
 
 CGDI3View::CGDI3View() noexcept
 {
-	// TODO: add construction code here
-
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			DImage image;
+			CString path;
+			path.Format(L"D:\\!Elfak\\Cetvrta Godina\\#Racunarska grafika\\lab\\lab 3\\%d.bmp", i * 3 + j + 1);
+			image.Load(path);
+			this->pieces[i][j].Load(path);
+		}
+	}
 }
 
 CGDI3View::~CGDI3View()
@@ -59,53 +68,107 @@ void CGDI3View::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-	CPen redPen(PS_SOLID, 1, RGB(255, 0, 0));
-	CPen* oldPen = pDC->SelectObject(&redPen);
+	CRect rect;
+	GetClientRect(&rect);
 
-	CString path("D:\\!Elfak\\Cetvrta Godina\\#Racunarska grafika\\lab\\lab 3\\1.bmp");
-	DImage img;
-	img.Load(path);
+	CDC* memDC = new CDC();
+	memDC->CreateCompatibleDC(pDC);
+	CBitmap bm; 
+	bm.CreateCompatibleBitmap(pDC, rect.Width(), rect.Height());
 
-	CDC memDC;
-	memDC.CreateCompatibleDC(pDC);
-	memDC.SelectObject(img.GetBitmap());
+	memDC->SelectObject(&bm);
+	CBrush brush(RGB(255, 255, 255));
+	CRect gridRect(0, 0, this->dim, this->dim);
+	memDC->FillRect(gridRect, &brush);
 
-	COLORREF transparentColor = RGB(0, 255, 0);
+	if (showGrid) {
+		DrawGrid(memDC);
+	}
 
-	//CBitmap maskBitmap;
-	//maskBitmap.CreateBitmap(img.Width(), img.Height(), 1, 1, NULL);
+	int oldGM = memDC->SetGraphicsMode(GM_ADVANCED);
 
-	//CDC maskDC;
-	//maskDC.CreateCompatibleDC(pDC);
-	//maskDC.SelectObject(&maskBitmap);
+	
+#pragma region Drawings
+	this->pieces[0][0].Draw(memDC, CRect(0, 0, 256, 256), CRect(1*gridItem, 1 * gridItem, 19/3.0f * gridItem, 19 / 3.0f * gridItem));
+	this->pieces[0][1].Draw(memDC, CRect(0, 0, 256, 256), CRect(19 / 3.0f * gridItem, 1 * gridItem, 2 * 19 / 3.0f * gridItem, 19 / 3.0f * gridItem));
+	this->pieces[0][2].Draw(memDC, CRect(0, 0, 256, 256), CRect(2* 19 / 3.0f * gridItem, 1 * gridItem, 19 * gridItem, 19 / 3.0f * gridItem));
+#pragma endregion
 
-	//COLORREF oldBkColor = memDC.SetBkColor(transparentColor);
+	memDC->SetGraphicsMode(oldGM);
 
-	//maskDC.BitBlt(0, 0, img.Width(), img.Height(), &memDC, 0, 0, SRCCOPY);
+	pDC->BitBlt(0, 0, gridRect.Width(), gridRect.Height(), memDC, 0, 0, SRCCOPY);
 
-	//memDC.SetBkColor(oldBkColor);
-
-	//pDC->BitBlt(0, 0, img.Width(), img.Height(), &memDC, 0, 0, SRCINVERT);
-	//pDC->BitBlt(0, 0, img.Width(), img.Height(), &maskDC, 0, 0, SRCAND);
-	//pDC->BitBlt(0, 0, img.Width(), img.Height(), &memDC, 0, 0, SRCINVERT);
-
-	pDC->TransparentBlt(0, 0, img.Width(), img.Height(), &memDC, 0, 0, img.Width(), img.Height(), transparentColor);
-
-	memDC.DeleteDC();
-	//maskDC.DeleteDC();
+	memDC->DeleteDC(); 
 }
 
+void CGDI3View::DrawGrid(CDC* pDC) {
+	CBrush gridBrush(RGB(225, 225, 225));
 
-//CString path("D:\\!Elfak\\Cetvrta Godina\\#Racunarska grafika\\lab\\lab 3\\1.bmp");
-//DImage img;
-//img.Load(path);
-//
-//CDC* memDC = new CDC();
-//memDC->CreateCompatibleDC(pDC);
-//memDC->SelectObject(img.GetBitmap());
-//
-//BitBlt(pDC->m_hDC, 0, 0, img.Width(), img.Height(), memDC->m_hDC, 0, 0, SRCCOPY);
-//memDC->DeleteDC();
+	for (int x = 0; x < this->dim; x += this->gridItem) {
+		for (int y = 0; y < this->dim; y += this->gridItem) {
+			pDC->FillRect(CRect(x, y, x + 1, this->dim), &gridBrush);
+			pDC->FillRect(CRect(0, y, this->dim, y + 1), &gridBrush);
+		}
+	}
+}
+
+void CGDI3View::Translate(CDC* pDC, float x, float y, bool rightMultiply)
+{
+	XFORM matrix =
+	{
+		1, 0,
+		0, 1,
+		x, y
+	};
+
+	pDC->ModifyWorldTransform(&matrix, rightMultiply ? MWT_RIGHTMULTIPLY : MWT_LEFTMULTIPLY);
+}
+
+void CGDI3View::Scale(CDC* pDC, float x, float y, bool rightMultiply)
+{
+	XFORM matrix =
+	{
+		x, 0,
+		0, y
+	};
+
+	pDC->ModifyWorldTransform(&matrix, rightMultiply ? MWT_RIGHTMULTIPLY : MWT_LEFTMULTIPLY);
+}
+
+void CGDI3View::Rotate(CDC* pDC, float angle, bool rightMultiply)
+{
+	XFORM matrix =
+	{
+		cos(RAD(angle)), sin((RAD(angle))),
+		-sin(RAD(angle)), cos(RAD(angle))
+	};
+
+	pDC->ModifyWorldTransform(&matrix, rightMultiply ? MWT_RIGHTMULTIPLY : MWT_LEFTMULTIPLY);
+}
+
+void CGDI3View::Mirror(CDC* pDC, bool x, bool y, bool rightMultiply)
+{
+	XFORM matrix =
+	{
+		x ? -1 : 1, 0,
+		0, y ? -1 : 1,
+	};
+
+	pDC->ModifyWorldTransform(&matrix, rightMultiply ? MWT_RIGHTMULTIPLY : MWT_LEFTMULTIPLY);
+}
+
+void CGDI3View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	switch (nChar)
+	{
+	case 'G':
+	case 'g':
+		this->showGrid = !this->showGrid;
+		break;
+	}
+	Invalidate();
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
 
 // CGDI3View printing
 

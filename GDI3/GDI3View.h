@@ -1,12 +1,21 @@
-
-// GDI3View.h : interface of the CGDI3View class
-//
-
-#pragma once
-
+#include "DImage.h"
 
 class CGDI3View : public CView
 {
+public:
+	bool showGrid = true;
+	int dim = 500;
+	int gridItem = 25;
+	int gridCount = 20;
+	DImage pieces[3][3];
+public:
+	void DrawGrid(CDC* pDC);
+	void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	void Translate(CDC* pDC, float x, float y, bool rightMultiply = false);
+	void Scale(CDC* pDC, float x, float y, bool rightMultiply = false);
+	void Rotate(CDC* pDC, float angle, bool rightMultiply = false);
+	void Mirror(CDC* pDC, bool x, bool y, bool rightMultiply = false);
+
 protected: // create from serialization only
 	CGDI3View() noexcept;
 	DECLARE_DYNCREATE(CGDI3View)
@@ -46,4 +55,3 @@ protected:
 inline CGDI3Doc* CGDI3View::GetDocument() const
    { return reinterpret_cast<CGDI3Doc*>(m_pDocument); }
 #endif
-

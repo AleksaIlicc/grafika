@@ -17,6 +17,7 @@ protected: // create from serialization only
 	bool mouthOpen = true;
 	int mouthAngle = 15;
 	DImage background;
+	bool collided = false;
 // Attributes
 public:
 	CK15Doc* GetDocument() const;
@@ -29,6 +30,8 @@ public:
 	void Translate(CDC* pDC, float x, float y);
 	void Rotate(CDC* pDC, float angle);
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	void CheckCollision(CRect ghostRect, CRect pacmanRect);
+	void DrawGhost(CDC* pDC, CRect rect);
 	void DrawPacman(CDC* pDC, CRect rect, float angle);
 
 
@@ -55,6 +58,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // debug version in K15View.cpp

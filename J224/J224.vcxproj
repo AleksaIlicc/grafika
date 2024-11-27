@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DImage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="J224.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DImage.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="J224.cpp" />
     <ClCompile Include="J224Doc.cpp" />

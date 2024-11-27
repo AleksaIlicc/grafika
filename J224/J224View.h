@@ -4,12 +4,14 @@
 
 #pragma once
 #include "Item.h"
+#include "DImage.h"
 
 class CJ224View : public CView
 {
 public:
 	float min = 1;
 	float max = 25;
+	bool save = false;
 protected: // create from serialization only
 	CJ224View() noexcept;
 	DECLARE_DYNCREATE(CJ224View)
@@ -27,6 +29,7 @@ public:
 	void DrawItem(CDC* pDC, int w, int l, float min, float max, float v25, float v75, COLORREF fill, CString label);
 	void DrawChart(CDC* pDC, Item* items, int n);
 	void DrawScene(CDC* pDC);
+	void SaveGraph(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	void Translate(CDC* pDC, float x, float y);
 	void Rotate(CDC* pDC, float angle);
@@ -49,6 +52,8 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in J224View.cpp

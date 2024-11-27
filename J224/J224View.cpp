@@ -1,4 +1,4 @@
-
+﻿
 // J224View.cpp : implementation of the CJ224View class
 //
 
@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CJ224View, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // CJ224View construction/destruction
@@ -95,9 +96,10 @@ void CJ224View::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 	int oldGM = pDC->SetGraphicsMode(GM_ADVANCED);
-	Translate(pDC, 100, 300);
-	Rotate(pDC, -90);
+	
 	DrawScene(pDC);
+	if(save)
+		SaveGraph(pDC);
 
 	pDC->SetGraphicsMode(oldGM);
 }
@@ -133,9 +135,13 @@ void CJ224View::DrawItem(CDC* pDC, int w, int l, float min, float max, float v25
 }
 
 void CJ224View::DrawChart(CDC* pDC, Item* items, int n) {
+
+	Translate(pDC, 100, 300);
+	Rotate(pDC, -90);
+
 	int height = 20;
 	int width = 200;
-	int rectHeight = n * height + (n - 1) * (40 - height);
+	int rectHeight = 20 + n * height + n * (40 - height);
 	XFORM transform;
 	pDC->GetWorldTransform(&transform);
 
@@ -169,10 +175,11 @@ void CJ224View::DrawChart(CDC* pDC, Item* items, int n) {
 
 
 	pDC->Rectangle(0, 0, width, rectHeight);
+	Translate(pDC, 0, 20);
 	for (int i = 0; i < n; i++)
 	{
 		DrawItem(pDC, height, 200, items[i].min, items[i].max, items[i].v25, items[i].v75, RGB(255, 0, 0), items[i].label);
-		Translate(pDC, 0, 40);
+		Translate(pDC, 0, 40); 
 	}
 }
 
@@ -186,6 +193,29 @@ void CJ224View::DrawScene(CDC* pDC)
 
 	DrawChart(pDC, items, 4);
 }
+
+void CJ224View::SaveGraph(CDC* pDC)
+{
+	int width = 800;   
+	int height = 600;  
+
+	CDC memDC;
+	memDC.CreateCompatibleDC(pDC);
+
+	CBitmap bitmap;
+	bitmap.CreateCompatibleBitmap(pDC, width, height);
+	memDC.SelectObject(&bitmap);
+
+	memDC.FillSolidRect(0, 0, width, height, RGB(255, 255, 255));
+	int oldGM = memDC.SetGraphicsMode(GM_ADVANCED);
+	DrawScene(&memDC);
+	memDC.SetGraphicsMode(oldGM);
+	DImage img(bitmap);
+	img.Save(_T("Graph.bmp")); 
+
+	pDC->BitBlt(0, 0, width, height, &memDC, 0, 0, SRCCOPY);
+}
+
 
 // CJ224View printing
 
@@ -228,3 +258,13 @@ CJ224Doc* CJ224View::GetDocument() const // non-debug version is inline
 
 
 // CJ224View message handlers
+
+
+void CJ224View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == 'S') {
+		save = true;
+	}
+	Invalidate();
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}

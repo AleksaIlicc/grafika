@@ -8,7 +8,8 @@
 class CK14View : public CView
 {
 public:
-	int angle = 0;
+	int angle = 0; 
+	int x_translate = 0;
 public:
 	DImage* wheel;
 	HENHMETAFILE clio;
@@ -26,7 +27,9 @@ public:
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	void DrawCar(CDC* pDC, int x, int y, int w, int h);
 	void DrawGround(CDC* pDC, float angle);
+	void DrawWheel(CDC* pDC, int x, int y, int r, float angle);
 	void Translate(CDC* pDC, float x, float y, bool rightMultiply = false);
 	void Rotate(CDC* pDC, float angle, bool rightMultiply = false);
 	void Scale(CDC* pDC, float x, float y, bool rightMultiply = false);

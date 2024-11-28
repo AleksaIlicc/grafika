@@ -80,15 +80,54 @@ void CK14View::OnDraw(CDC* pDC)
 
 	memDC->SelectObject(&bmp);
 
-	DrawGround(memDC, angle);
-
 	int oldGM = memDC->SetGraphicsMode(GM_ADVANCED);
 	
+
+	DrawGround(memDC, angle);
+	int width = 450;
+	CRect carRect(0, clientRect.Height() - 200, width, clientRect.Height() - 200 + width / 2.5);
+
+	XFORM oldTransform;
+	memDC->GetWorldTransform(&oldTransform);
+
+	Translate(memDC, 0, clientRect.Height());
+	Rotate(memDC, -angle);
+	Translate(memDC, -0, -clientRect.Height());
+
+	float alpha = x_translate / (2 * M_PI);
+
+	DrawCar(memDC, x_translate, clientRect.Height() - 200, width, width / 2.5);
+	DrawWheel(memDC, x_translate + carRect.CenterPoint().x - 155, carRect.CenterPoint().y + 70, 38, alpha);
+	DrawWheel(memDC, x_translate + carRect.CenterPoint().x + 135, carRect.CenterPoint().y + 70, 38, alpha);
+
+	memDC->SetWorldTransform(&oldTransform);
+
 	memDC->SetGraphicsMode(oldGM);
 
 	pDC->BitBlt(0, 0, clientRect.Width(), clientRect.Height(), memDC, 0, 0, SRCCOPY);
 
 	memDC->DeleteDC();
+}
+
+void CK14View::DrawCar(CDC* pDC, int x, int y, int w, int h)
+{
+	XFORM oldTransform;
+	pDC->GetWorldTransform(&oldTransform);
+	Translate(pDC, x + w / 2.0, y + h / 2.0); 
+	Scale(pDC, -1, 1); 
+	Translate(pDC, - (x + w / 2.0), - (y + h / 2.0)); 
+	pDC->PlayMetaFile(clio, CRect(x, y, x + w, y + h));
+	pDC->SetWorldTransform(&oldTransform); 
+}
+
+void CK14View::DrawWheel(CDC* pDC, int x, int y, int r, float angle)
+{
+	XFORM oldTransform;
+	pDC->GetWorldTransform(&oldTransform);
+	Translate(pDC, x, y);
+	Rotate(pDC, angle);
+	wheel->DrawTransparent(pDC, CRect(52, 15, 52 + 376, 15 + 376), CRect(-r, -r, r, r), RGB(255,255,255));
+	pDC->SetWorldTransform(&oldTransform);
 }
 
 void CK14View::DrawGround(CDC* pDC, float angle) 
@@ -202,11 +241,21 @@ BOOL CK14View::OnEraseBkgnd(CDC* pDC)
 void CK14View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_UP) {
-		if(angle < 80)
+		if(angle < 80){
 			angle += 10;
+			x_translate = 0;
+		}
 	} else if (nChar == VK_DOWN) {
-		if (angle > -10)
+		if (angle > -10){
 			angle -= 10;
+			x_translate = 0;
+		}
+	}
+	else if (nChar == VK_LEFT) {
+		x_translate -= 10;
+	}
+	else if (nChar == VK_RIGHT) {
+		x_translate += 10;
 	}
 	Invalidate();
 

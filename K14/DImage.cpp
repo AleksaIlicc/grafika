@@ -1,6 +1,5 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "DImage.h"
-
 //----------------------------------
 /* stbi-1.33 - public domain JPEG/PNG reader - http://nothings.org/stb_image.c
    when you control the images you're loading
@@ -4763,7 +4762,7 @@ void DImage::Save(CFile& file)
     // Snimiti zaglavlje bitmape
     file.Write(&BMI, sizeof(BITMAPINFO));
 
-    // Snimiti sadr�aj bitmape
+    // Snimiti sadržaj bitmape
     file.Write(m_pBuf, m_nHeight * GetScanlineWidth());
 }
 
@@ -4780,6 +4779,30 @@ void DImage::Draw(CDC* pDC, CRect rcImg, CRect rcDC)
     pMemDC->DeleteDC();
     delete pMemDC;
 }
+
+
+void DImage::DrawTransparent(CDC* pDC, CRect rcImg, CRect rcDC, COLORREF bgColor)
+{
+    CDC srcDC;
+    srcDC.CreateCompatibleDC(pDC);
+
+    CBitmap* oldBmp = srcDC.SelectObject(m_pBmp);
+
+    // Koristimo TransparentBlt umesto ručne manipulacije
+    pDC->SetStretchBltMode(HALFTONE);
+    pDC->TransparentBlt(
+        rcDC.left, rcDC.top,           // Pozicija na odredišnom DC-u
+        rcDC.Width(), rcDC.Height(),   // Dimenzije na odredišnom DC-u
+        &srcDC,                        // Izvorni DC
+        rcImg.left, rcImg.top,         // Početak na izvornoj slici
+        rcImg.Width(), rcImg.Height(), // Dimenzije na izvornoj slici
+        bgColor                        // Boja koja treba biti transparentna
+    );
+
+    srcDC.SelectObject(oldBmp);
+}
+
+
 
 void DImage::Flip()
 {
